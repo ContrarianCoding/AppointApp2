@@ -5,12 +5,16 @@ import JSEncrypt from 'jsencrypt';
 
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
+import { Text } from "react-native";
 
 class Login extends React.Component {
   state = {
     email: '',
     password: '',
-    loggedIn: false
+    repeatPassword: '',
+    phoneNum: '',
+    loggedIn: false,
+    signUp: false
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -20,6 +24,10 @@ class Login extends React.Component {
         alert('Welcome!')
       }, 1000);
     }
+  }
+
+  toggleSignUp = () => {
+    this.setState({ signUp: !this.state.signUp });
   }
 
   // async componentDidUpdate(prevProps) {
@@ -71,6 +79,7 @@ class Login extends React.Component {
   }
 
   render() {
+    const { signUp } = this.state;
     return (
       <Container>
         <Logo source={ require('../assets/images/robot-dev.png') } resizeMode="contain"/>
@@ -89,14 +98,36 @@ class Login extends React.Component {
             type="password"
             onChange={password => this.setState({ password })}
           />
+          {signUp && (
+            <Input
+              value={this.state.repeatPassword}
+              placeholder="Password"
+              secure
+              type="password"
+              onChange={password => this.setState({ password })}
+            />
+          )}
+          {signUp && (
+            <Input
+              value={this.state.repeatPassword}
+              placeholder="Phone Number"
+              type="phoneNumber"
+              keyboardType="phone-number"
+              onChange={phoneNum => this.setState({ phoneNum })}
+            />
+          )}
+
         </Row>
 
         <Button
           onPress={this.signIn}
-          label="Login"
-          background="#5AADF4"
-          color="#fff"
+          label='Login'
+          background='#a97189'
+          color='#ffffff'
         />
+        <Link onPress={this.toggleSignUp} >
+          {signUp ? 'Login' : 'Sign Up'}
+        </Link>
       </Container>
     );
   }
@@ -106,7 +137,7 @@ export default Login;
 
 const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: ${'#112133'};
   align-items: center;
   justify-content: center;
 `;
@@ -118,4 +149,10 @@ const Logo = styled.Image`
 
 const Row = styled.View`
   margin: 40px 0;
+`;
+
+const Link = styled.Text`
+  margin-top: 20;
+  fontSize: 14;
+  color: ${'#43a7ff'};
 `;
