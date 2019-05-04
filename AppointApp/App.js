@@ -8,6 +8,26 @@ export default class App extends React.Component {
     isLoadingComplete: false,
   };
 
+  componentWillMount() {
+    firebase.initializeApp({
+      apiKey: 'AIzaSyDEdAKupwZ8eMsWGkaDcpeK_VlMmgDCLQA',
+      authDomain: 'authenitication-f7688.firebaseapp.com',
+      databaseURL: 'https://authenitication-f7688.firebaseio.com',
+      projectId: 'authenitication-f7688',
+      storageBucket: 'authenitication-f7688.appspot.com',
+      messagingSenderId: '80966187186'
+    });
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ signedIn: true });
+        //TODO - register client
+      } else {
+        this.setState({ signedIn: false });
+      }
+    });
+  }
+
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
